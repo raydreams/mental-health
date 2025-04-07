@@ -10,12 +10,13 @@ import BackToTop from "@/components/back-to-top"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mental-health-caon.vercel.app'),
   title: "Mental Health Support & Advocacy | Canada",
   description: "Raising awareness and providing support for mental health issues in Canada",
   openGraph: {
     title: "Mental Health Support & Advocacy | Canada",
     description: "Raising awareness and providing support for mental health issues in Canada",
-    url: "https://mentalhealthcanada.ca",
+    url: "https://mental-health-caon.vercel.app",
     siteName: "Mental Health Support & Advocacy",
     images: [
       {

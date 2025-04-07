@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import MentalHealthTrendsChart from "@/components/charts/mental-health-trends"
@@ -8,7 +9,7 @@ import ProvinceComparisonChart from "@/components/charts/province-comparison"
 import { motion, useReducedMotion, useInView } from "framer-motion"
 import { useRef } from "react"
 
-export default function LearnPage() {
+function LearnContent() {
   const prefersReducedMotion = useReducedMotion()
   const keyFindingsRef = useRef(null)
   const isKeyFindingsInView = useInView(keyFindingsRef, { once: true, margin: "-100px" })
@@ -266,5 +267,17 @@ export default function LearnPage() {
         </motion.section>
       </div>
     </motion.div>
+  )
+}
+
+export default function LearnPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-pulse text-emerald-400">Loading...</div>
+      </div>
+    }>
+      <LearnContent />
+    </Suspense>
   )
 }

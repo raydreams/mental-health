@@ -268,4 +268,3 @@ export default function LearnPage() {
     </motion.div>
   )
 }
-

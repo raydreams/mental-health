@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 142 76% 36%;
+
+    --radius: 1rem;
+
+    /* Chart colors */
+    --chart-1: 142 76% 36%; /* Emerald #10B981 */
+    --chart-2: 142 76% 26%; /* Dark Emerald #059669 */
+    --chart-3: 0 0% 100%; /* White */
+    --chart-4: 0 0% 90%; /* Light Gray */
+    --chart-5: 0 0% 80%; /* Gray */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion styles */
+.reduce-motion * {
+  transition: none !important;
+  animation: none !important;
+}
+
+html.reduce-motion * {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #10B981, #059669);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #059669, #10B981);
+}
+
+/* Modern glassmorphism */
+.glass {
+  @apply bg-black/80 backdrop-blur-3xl border border-white/10;
+}
+
+/* Modern card hover effect */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:border-[#10B981]/20;
+}
+
+/* Modern button styles */
+.modern-button {
+  @apply bg-[#10B981] hover:bg-[#059669] text-white px-6 py-3 rounded-xl 
+         font-medium shadow-lg hover:shadow-xl 
+         transition-all duration-300 ease-in-out 
+         transform hover:-translate-y-0.5 active:translate-y-0
+         hover:shadow-[0_0_20px_rgba(16,185,129,0.2)];
+}
+
+/* Modern gradient text */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#10B981] to-[#059669];
+}
+

@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname, useSearchParams } from "next/navigation"
-import { type ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { type ReactNode, createContext, useContext, useEffect, useState, Suspense } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useMobileDetect } from "@/hooks/use-mobile"
 
@@ -15,7 +15,7 @@ const PageTransitionContext = createContext<PageTransitionContextType>({
 
 export const usePageTransition = () => useContext(PageTransitionContext)
 
-export function PageTransitionProvider({ children }: { children: ReactNode }) {
+function PageTransitionContent({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [previousPath, setPreviousPath] = useState<string | null>(null)
@@ -62,6 +62,20 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
         </motion.div>
       </AnimatePresence>
     </PageTransitionContext.Provider>
+  )
+}
+
+export function PageTransitionProvider({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-pulse text-emerald-400">Loading...</div>
+      </div>
+    }>
+      <PageTransitionContent>
+        {children}
+      </PageTransitionContent>
+    </Suspense>
   )
 }
 

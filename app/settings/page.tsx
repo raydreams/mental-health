@@ -5,8 +5,60 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
-import { Moon, Sun, Sparkles, Settings2, Accessibility, Palette, ChevronRight } from "lucide-react"
+import { Moon, Sun, Sparkles, Settings2, Accessibility, Palette, ChevronRight, Info } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+
+// Credits data
+const credits = [
+  {
+    category: "Images",
+    items: [
+      {
+        name: "Mental Health Support",
+        source: "Unsplash",
+        author: "Various photographers",
+        link: "https://unsplash.com/s/photos/mental-health",
+        description: "Background and hero images"
+      }
+    ]
+  },
+  {
+    category: "Icons",
+    items: [
+      {
+        name: "Lucide Icons",
+        source: "GitHub",
+        author: "Luca Burgio",
+        link: "https://lucide.dev/",
+        description: "Navigation and UI icons"
+      }
+    ]
+  },
+  {
+    category: "Data Sources",
+    items: [
+      {
+        name: "Mental Health Statistics",
+        source: "Statistics Canada",
+        author: "Government of Canada",
+        link: "https://www.statcan.gc.ca/o1/en/plus/5461-lets-talk-mental-health",
+        description: "Mental health statistics and trends"
+      }
+    ]
+  },
+  {
+    category: "Design and Styling",
+    items: [
+      {
+        name: "BAD Designs",
+        source: "Private Company",
+        author: "BAD Designs (Rehan M)",
+        link: "https:/cometmc.vercel.app",
+        description: "Design and styling inspiration."
+      }
+    ]
+  }
+]
 
 // Constants for local storage keys
 const STORAGE_KEYS = {
@@ -140,7 +192,7 @@ export default function SettingsPage() {
           {/* Sidebar Navigation */}
           <motion.div 
             variants={item}
-            className="md:col-span-3 sticky top-8 self-start"
+            className="md:col-span-3 sticky top-8 self-start space-y-4"
           >
             <nav className="space-y-1.5 bg-gray-950/30 backdrop-blur-sm rounded-xl p-2.5 border border-gray-800/50">
               <button
@@ -173,6 +225,22 @@ export default function SettingsPage() {
                 </div>
                 <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${
                   activeSection === "accessibility" ? "rotate-90" : ""
+                }`} />
+              </button>
+              <button
+                onClick={() => setActiveSection("credits")}
+                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-lg transition-all duration-300 ${
+                  activeSection === "credits"
+                    ? "bg-emerald-500/10 text-emerald-400 shadow-sm shadow-emerald-500/10"
+                    : "text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/5"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Info className="w-5 h-5" />
+                  <span className="text-sm font-medium truncate">Credits</span>
+                </div>
+                <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${
+                  activeSection === "credits" ? "rotate-90" : ""
                 }`} />
               </button>
             </nav>
@@ -309,6 +377,59 @@ export default function SettingsPage() {
                           </a>
                         </p>
                       </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeSection === "credits" && (
+                <motion.div
+                  key="credits"
+                  variants={fadeIn}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="rounded-xl bg-gray-950/30 backdrop-blur-sm border border-gray-800/50 overflow-hidden"
+                >
+                  <div className="px-6 py-6 border-b border-gray-800/50 bg-black/20">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Info className="w-5 h-5 text-emerald-400" />
+                      <h2 className="text-lg font-medium text-emerald-400">Credits</h2>
+                    </div>
+                    <p className="text-sm text-gray-400">
+                      Resources and assets used in this application
+                    </p>
+                  </div>
+                  <div className="p-8">
+                    <div className="space-y-8">
+                      {credits.map((category) => (
+                        <div key={category.category} className="space-y-4">
+                          <h3 className="text-lg font-semibold text-emerald-400">{category.category}</h3>
+                          <div className="grid gap-4 sm:grid-cols-2">
+                            {category.items.map((item) => (
+                              <div
+                                key={item.name}
+                                className="p-4 rounded-lg bg-black/20 border border-gray-800/50 hover:border-emerald-500/30 transition-colors duration-200"
+                              >
+                                <h4 className="font-medium text-white">{item.name}</h4>
+                                <p className="text-sm text-gray-400 mt-1">{item.description}</p>
+                                <div className="mt-2 text-sm">
+                                  <p className="text-gray-500">Source: {item.source}</p>
+                                  <p className="text-gray-500">Author: {item.author}</p>
+                                  <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-emerald-400 hover:text-emerald-300 transition-colors duration-200 mt-2 inline-block"
+                                  >
+                                    View Resource →
+                                  </a>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </motion.div>

@@ -20,11 +20,20 @@ function PageTransitionContent({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams()
   const [previousPath, setPreviousPath] = useState<string | null>(null)
   const isMobile = useMobileDetect()
+  const [isLoading, setIsLoading] = useState(true)
 
   // Store previous path for scroll management
   useEffect(() => {
     setPreviousPath(pathname)
   }, [pathname, searchParams])
+
+  // Handle initial load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Scroll to top on page change if user was at the bottom of the previous page
   useEffect(() => {
@@ -46,21 +55,31 @@ function PageTransitionContent({ children }: { children: ReactNode }) {
     exit: { opacity: 0, y: -20 },
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen w-full bg-black text-white flex items-center justify-center">
+        <div className="animate-pulse text-emerald-400">Loading...</div>
+      </div>
+    )
+  }
+
   return (
     <PageTransitionContext.Provider value={{ previousPath }}>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={pathname}
-          initial="hidden"
-          animate="enter"
-          exit="exit"
-          variants={isMobile ? { hidden: {}, enter: {}, exit: {} } : variants}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className=""
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
+      <div className="min-h-screen w-full bg-black">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={isMobile ? undefined : "hidden"}
+            animate={isMobile ? undefined : "enter"}
+            exit={isMobile ? undefined : "exit"}
+            variants={isMobile ? undefined : variants}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="min-h-screen w-full"
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </PageTransitionContext.Provider>
   )
 }
@@ -68,7 +87,7 @@ function PageTransitionContent({ children }: { children: ReactNode }) {
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen w-full bg-black text-white flex items-center justify-center">
         <div className="animate-pulse text-emerald-400">Loading...</div>
       </div>
     }>

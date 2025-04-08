@@ -6,6 +6,9 @@ import BottomNavigation from "@/components/bottom-navigation"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PageTransitionProvider } from "@/components/page-transition-provider"
 import BackToTop from "@/components/back-to-top"
+import Footer from "@/components/footer"
+import { cn } from "@/lib/utils"
+import { fontSans } from "@/lib/fonts"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -44,19 +47,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-black text-white antialiased selection:bg-emerald/20 selection:text-emerald`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <body className={cn("min-h-screen bg-black font-sans antialiased", fontSans.variable)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
           <PageTransitionProvider>
-            <main className="relative min-h-screen overflow-x-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald/5 via-transparent to-transparent pointer-events-none" />
-              {children}
-            </main>
-            <BackToTop />
+            <div className="relative min-h-screen flex flex-col">
+              <main className="flex-1 pb-8">
+                {children}
+              </main>
+              <Footer />
+            </div>
             <BottomNavigation />
           </PageTransitionProvider>
         </ThemeProvider>

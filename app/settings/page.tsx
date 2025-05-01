@@ -52,7 +52,7 @@ const credits = [
       {
         name: "BAD Designs",
         source: "Private Company",
-        author: "BAD Designs (Rehan M)",
+        author: "BAD Designs (Ray)",
         link: "https:/cometmc.vercel.app",
         description: "Design and styling inspiration."
       }
